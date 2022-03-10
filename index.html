@@ -8,7 +8,73 @@
     <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
-    <h1>This is my pokedex app</h1>
+    <section class="search"> 
+        <input type="search" class="search__input" placeholder="Search...">
+    </section>
+
+    <main class="pokemon-card">
+        <div>
+            <p>Evolves from Chameleon</p>
+            <hr />
+
+            <div>
+                <h2>Pokemon Name</h2>
+                <p>  HP <span>Tlogo</span> </p>
+            </div>
+        </div>
+
+        <div class="pokemon-card-image">
+            <img class="pokemon-card-image__img" src="/images/pokeApi-charizard-demo.png" alt="image of the pokemon">
+        </div>
+        
+
+        <div class="pokemon-char">
+            <div class="pokemon-char__item">
+                <p>ID: <span>006</span> </p>
+            </div>
+            <div class="pokemon-char__item">
+                <p>Height: <span>5'7</span> </p>
+            </div>
+            <div class="pokemon-char__item">
+                <p>Weight: <span>200lbs</span> </p>
+            </div>
+        </div>
+
+        <div class="pokemon-abilities">
+            <h3>Abilities</h3>
+            <ol class="pokemon-abilities__list">
+                <li>Blaze</li>
+                <li>Solar Power (Hidden Ability)</li>
+            </ol>
+            
+            <hr>
+
+            <div class="pokemon-stats">
+                <div class="pokemon-stats__item">
+                    <p> 
+                        ATK: <span>??</span> 
+                    </p>
+                </div>
+                <div class="pokemon-stats__item">
+                    <p> 
+                        DEF: <span>??</span> 
+                    </p>
+                </div>
+                <div class="pokemon-stats__item">
+                    <p> 
+                        SP ATK: <span>??</span> 
+                    </p>
+                </div>
+                <div class="pokemon-stats__item">
+                    <p> 
+                        SP DEF: <span>??</span> 
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
 
     <script src="./script/index.js"></script>
 </body>
