@@ -13,22 +13,22 @@
     </section>
 
     <main class="pokemon-card">
-        <div>
-            <p>Evolves from Chameleon</p>
+        <section class="title">
+            <p>Evolves from <span>Chameleon</span></p>
             <hr />
 
             <div>
                 <h2>Pokemon Name</h2>
                 <p>  HP <span>Tlogo</span> </p>
             </div>
-        </div>
+        </section>
 
-        <div class="pokemon-card-image">
-            <img class="pokemon-card-image__img" src="/images/pokeApi-charizard-demo.png" alt="image of the pokemon">
-        </div>
+        <section class="pokemon-card-image">
+            <img class="pokemon-card-image__img" src="/images/pokeApi-charizard-demo.png" alt="image of the pokemon" width="100%" height="100%">
+        </section>
         
 
-        <div class="pokemon-char">
+        <section class="pokemon-char">
             <div class="pokemon-char__item">
                 <p>ID: <span>006</span> </p>
             </div>
@@ -38,9 +38,9 @@
             <div class="pokemon-char__item">
                 <p>Weight: <span>200lbs</span> </p>
             </div>
-        </div>
+        </section>
 
-        <div class="pokemon-abilities">
+        <section class="pokemon-abilities">
             <h3>Abilities</h3>
             <ol class="pokemon-abilities__list">
                 <li>Blaze</li>
@@ -71,10 +71,73 @@
                     </p>
                 </div>
             </div>
-        </div>
-
-
+        </section>
     </main>
+
+    <section class="pokemon-moves">
+        <ul class="pokemon-moves__item">
+            <li >
+                <span class="move-type">TYPE</span>
+            </li>
+            <li class="move-name">
+                <span>Name</span>
+            </li>
+            <li class="move-lvl">Lvl: </li>
+            <li class="move-points">PP</li>
+        </ul>
+        <ul class="pokemon-moves__item">
+            <li>
+                <span class="move-type">TYPE</span>
+            </li>
+            <li class="move-name">
+                <span>Name</span>
+            </li>
+            <li class="move-lvl">Lvl:</li>
+            <li class="move-points">PP</li>
+        </ul>
+        <ul class="pokemon-moves__item">
+            <li>
+                <span class="move-type">TYPE</span>
+            </li>
+            <li class="move-name">
+                <span>Name</span>
+            </li>
+            <li class="move-lvl">Lvl:</li>
+            <li class="move-points">PP</li>
+        </ul>
+        <ul class="pokemon-moves__item">
+            <li>
+                <span class="move-type">TYPE</span>
+            </li>
+            <li class="move-name">
+                <span>Name</span>
+            </li>
+            <li class="move-lvl">Lvl:</li>
+            <li class="move-points">PP</li>
+        </ul>
+    </section>
+
+    <section class="navigation">
+        <a href="" class="previous">
+            <div class="poke-name">
+                <p>ID</p>
+                <h3>Name</h3>
+            </div>
+            <div class="poke-img">
+                <img src="/images/250px-006Charizard.png" alt="Previous Pokemon">
+            </div>
+        </a>
+
+        <a href="" class="next">
+            <div class="poke-name">
+                <p>ID</p>
+                <h3>Name</h3>
+            </div>
+            <div class="poke-img">
+                <img src="/images/250px-006Charizard.png" alt="Previous Pokemon">
+            </div>
+        </a>
+    </section>
 
     <script src="./script/index.js"></script>
 </body>

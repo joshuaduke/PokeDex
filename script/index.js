@@ -1,5 +1,9 @@
 const myBtn = document.querySelector('button');
 
+// window.onload = ()=>{
+//     alert('I am here')
+// }
+
 function loadDoc(){
     const xhttp = new XMLHttpRequest();
 
