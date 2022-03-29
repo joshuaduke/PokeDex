@@ -120,9 +120,12 @@ body{
     display: inline-block;
     background-color:pink;
     color:#fff;
-    font-weight:bold;
     padding:5px 20px;
     border-radius: 5px;
+}
+
+.move-lvl, .move-type, .move-name, .move-points{
+    font-weight:bold;
 }
 
 .navigation{
