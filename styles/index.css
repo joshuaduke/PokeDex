@@ -42,10 +42,33 @@ body{
     background-color: steelblue;
 }
 
+.evolvedFrom-img{
+    width:auto;
+    position: absolute;
+    top: 32px;
+    left: 10px;
+    border:3px solid orange;
+    background-color: #212121;
+}
+
+.evolvedFrom-img img{
+    width: 50px;
+}
+/* 
+.title{
+    margin-left:50px;
+} */
+
+.pokemon-header{
+    display: flex;
+    justify-content: space-between;
+}
+
 .pokemon-card-image{
     width:100%;
     display: grid;
     place-content: center;
+    background-color: #212121;
 }
 
 .pokemon-card-image__img{

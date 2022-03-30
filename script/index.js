@@ -5,7 +5,28 @@ window.onload = async () =>{
 
     const randomId = generateNumber();
     console.log(randomId);
-    let myPokemon = createPokemon(77);
+    let myPokemon = await createPokemon(randomId);
+    populatePage(myPokemon)
+}
+
+async function getSprite(id){
+    if(id !== null) {
+        const spriteResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        const sprite = await spriteResponse.json();
+    
+        let { 
+            sprites: {
+                    other: { 
+                        "official-artwork": 
+                            { "front_default": imageLink } 
+                            } 
+                    } 
+            } = sprite;
+    
+            return imageLink; 
+    } else {
+        return null;
+    }
 }
 
 async function createPokemon(nameOrId){
@@ -31,18 +52,6 @@ async function createPokemon(nameOrId){
         })
 
         // MOVES
-        // let battleMoves = [];
-        // moves.forEach(item => {
-        // let { move: {name} } = item;
-        // let level = item["version_group_details"][0]["level_learned_at"];
-        // // console.log(name, level)
-        // let moveObj = {
-        //     name: name,
-        //     level: level
-        // }
-        // battleMoves.push(moveObj)
-        // })
-
         let battleMoves = moves.filter( (item) =>{
             let level = item["version_group_details"][0]["level_learned_at"];
             let { move: {name} } = item;
@@ -67,7 +76,7 @@ async function createPokemon(nameOrId){
         let {"base_stat": value , stat: {name} } = item; 
         let statObj = {
             name: name,
-            value: value
+            value: value,
         }
         pokeStats.push(statObj)
         })
@@ -90,7 +99,6 @@ async function createPokemon(nameOrId){
             } = pokemon;
 
         // Evolved From
-        // let { "evolves_from_species": {name: evolvedFrom}, "flavor_text_entries": desc } = species;
         let { "flavor_text_entries": desc } = species;
 
         let evolvedFrom;
@@ -115,7 +123,7 @@ async function createPokemon(nameOrId){
         description: desc[0]["flavor_text"]
         }
 
-        console.log(pokeData)
+        // console.log(pokeData)
         return pokeData;
 
 
@@ -131,24 +139,99 @@ async function createPokemon(nameOrId){
 
 }
 
-function populatePage(data){
-    let pokeName = document.querySelector('.pokemon__name');
-    let pokeHp = document.querySelector('.pokemon__hp');
-    let pokeType = document.querySelector('.pokemon__type');
+async function populatePage(data){
+    let pokemonCard = document.querySelector('.pokemon-card');
+    let title = document.querySelector('.title');
+    let pokeName = document.querySelector('.pokemon-header__name');
+    let pokeHp = document.querySelector('.pokemon-header__hp');
+    let pokeType = document.querySelector('.pokemon-header__type');
+    let pokeImage = document.querySelector('.pokemon-card-image__img')
+    let evolvedFromName = document.querySelector('.evolvedFrom-name');
+    let pokeId = document.querySelector('.pokemon-char-id');
+    let pokeHeight = document.querySelector('.pokemon-char-height');
+    let pokeWeight = document.querySelector('.pokemon-char-weight');
 
     console.log('This is a new pokemon', data)
+    
+    // Evolved From image
+    const evolvedFromImgDiv = document.createElement('div');
+    evolvedFromImgDiv.classList.add('evolvedFrom-img')
 
+    const previousFormImg = document.createElement('img');
+    let imageUrl = await getSprite(data.evolvedFrom);
+    
+    console.log(imageUrl)
+    if(imageUrl !== null){
+        title.style.marginLeft = '50px';
+        pokemonCard.appendChild(evolvedFromImgDiv);
+        previousFormImg.src = await getSprite(data.evolvedFrom);
+        evolvedFromImgDiv.appendChild(previousFormImg);
+         //Evolved From name
+        evolvedFromName.innerHTML = `Evolves from ${data.evolvedFrom}`;
+    }
+
+    // Pokemon Details
     pokeName.innerHTML = (data.name).toUpperCase();
-    pokeHp.innerHTML = (data.name).toUpperCase();
-    pokeName.innerHTML = (data.name).toUpperCase();
+    pokeHp.innerHTML = `${(data.stats[0].value)} HP`;
+    pokeType.innerHTML = data.types[0]
+    pokeImage.src = data.image;
+    pokeId.innerHTML = `ID: ${data.id}`;
+    pokeHeight.innerHTML = `Height: ${data.height * 0.33} feet`;
+    pokeWeight.innerHTML = `Weight: ${data.weight * 0.22} lbs`;
+
+    let pokeAbilities = document.querySelector('.pokemon-abilities__list');
+
+    data.abilities.forEach(ability =>{
+        const listItem = document.createElement('li');
+        listItem.innerHTML = ability;
+        pokeAbilities.appendChild(listItem);
+    })
+    
+    let pokeStats = document.querySelector('.pokemon-stats');
+    let [, atk, def, spAtk, spDef ,] = data.stats;
+    let statsArr = [];
+
+    statsArr.push(atk, def,spAtk, spDef)
+
+    statsArr.forEach(item => {
+        console.log(item)
+        // let statsItem = document.createElement('div');
+        // let statsParagraph = document.createElement('p');
+        // let statName = Object.keys(item)
+
+        // statsParagraph.innerHTML = `${statName}: `;
+        // statsItem.appendChild(statsParagraph);
+        // statsItem.classList.add('pokemon-stats__item');
+        // pokeStats.appendChild(statsItem);
+
+
+    })
+
+       
 }
 
 
 // Search 
 
 function generateNumber(){
-    return Math.floor(Math.random() * 151)
+    return Math.floor(Math.random() * 150 + 1)
 }
+
+
+/*
+abilities: (3) ['synchronize', 'inner-focus', 'magic-guard']
+description: "It emits special\nalpha waves from\nits body that\finduce headaches\njust by being\nclose by."
+evolvedFrom: "abra"
+height: 13
+id: 64
+image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/64.png"
+moves: (16) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+name: "kadabra"
+stats: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+types: ['psychic']
+weight: 565
+*/
+
 
 
 /* DATA To retrieve from APIs
