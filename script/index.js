@@ -176,8 +176,8 @@ async function populatePage(data){
     pokeType.innerHTML = data.types[0]
     pokeImage.src = data.image;
     pokeId.innerHTML = `ID: ${data.id}`;
-    pokeHeight.innerHTML = `Height: ${data.height * 0.33} feet`;
-    pokeWeight.innerHTML = `Weight: ${data.weight * 0.22} lbs`;
+    pokeHeight.innerHTML = `Height: ${(data.height * 0.33).toPrecision(3)} feet`;
+    pokeWeight.innerHTML = `Weight: ${(data.weight * 0.22).toPrecision(3)} lbs`;
 
     let pokeAbilities = document.querySelector('.pokemon-abilities__list');
 
@@ -187,32 +187,116 @@ async function populatePage(data){
         pokeAbilities.appendChild(listItem);
     })
     
+    //atk def sp atck sp def
     let pokeStats = document.querySelector('.pokemon-stats');
+    let pokeStatItem = document.querySelectorAll('.pokemon-stats__item span');
+
     let [, atk, def, spAtk, spDef ,] = data.stats;
     let statsArr = [];
 
     statsArr.push(atk, def,spAtk, spDef)
+    
+    console.log(statsArr)
 
-    statsArr.forEach(item => {
-        console.log(item)
-        // let statsItem = document.createElement('div');
-        // let statsParagraph = document.createElement('p');
-        // let statName = Object.keys(item)
+    let instance = 0;
 
-        // statsParagraph.innerHTML = `${statName}: `;
-        // statsItem.appendChild(statsParagraph);
-        // statsItem.classList.add('pokemon-stats__item');
-        // pokeStats.appendChild(statsItem);
-
-
+    pokeStatItem.forEach((statItem) => {
+        console.log('first loop');
+        statItem.innerHTML = statsArr[instance].value;
+        instance++
     })
 
+    //displaying pokemon types
+    /*
+        call generateTypes function
+        assign proper type and color to an object
+        retun object from function
+
+    */
+
+    const pokemonTypesColoursArr = generateTypes(data.types)
+    console.log('Types and colours');
+    console.log(pokemonTypesColoursArr);
+
+        //target section w pokemon-types class
+        let sectionPokemonTypes = document.querySelector('.pokemon-types');
+    
+        //create a new ul element
+        const pokeList = document.createElement('ul');
+
+        //for each item in the pokemontypescoloursarr 
+        pokemonTypesColoursArr.forEach((item)=>{
+            let pokeListItem = document.createElement('li');
+            pokeListItem.classList.add('pokemon-types__list')
+            pokeListItem.style.backgroundColor = item.color;
+            let node = document.createTextNode(item.type);
+            pokeListItem.appendChild(node);
+            pokeList.appendChild(pokeListItem);
+        })
+
+        sectionPokemonTypes.appendChild(pokeList);
+
+        //append a child list element with a class of //'pokemon-header__type'
+        //add the text and colour to each list item
+
+
+
+
+    // statsArr.forEach(item => {
+
+    //     console.log('second loop');
+        
+    //     console.log(item)
+    //     // let statsItem = document.createElement('div');
+    //     // let statsParagraph = document.createElement('p');
+    //     // let statName = Object.keys(item)
+
+    //     // statsParagraph.innerHTML = `${statName}: `;
+    //     // statsItem.appendChild(statsParagraph);
+    //     // statsItem.classList.add('pokemon-stats__item');
+    //     // pokeStats.appendChild(statsItem);
+
+
+    // })
        
+}
+
+function generateTypes(pokemonTypes){
+    let myArr = [];
+    const allPokemonTypes = [
+        {type: 'normal', color:'#A8A878'},
+        {type: 'flying', color:'#A68FEB'},
+        {type: 'fire', color:'#F08030'},
+        {type: 'psychic', color:'#F85888'},
+        {type: 'water', color:'#6890F0'},
+        {type: 'bug', color:'#A8B820'},
+        {type: 'grass', color:'#78C850'},
+        {type: 'rock', color:'#B8A038'},
+        {type: 'electric', color:'#F8D030'},
+        {type: 'ghost', color:'#705898'},
+        {type: 'ice', color:'#98D8D8'},
+        {type: 'dark', color:'#705848'},
+        {type: 'fighting', color:'#C03028'},
+        {type: 'dragon', color:'#7038F8'},
+        {type: 'poison', color:'#A040A0'},
+        {type: 'steel', color:'#B8B8D0'},
+        {type: 'ground', color:'#E0C068'},
+        {type: 'fairy', color:'#F0B6BC'}
+    ]
+
+    pokemonTypes.forEach((pokeType) => {
+        const found = allPokemonTypes.find((item) => item.type === pokeType )
+        // console.log(found);
+        myArr.push(found);
+    })
+
+    myArr.forEach(item => console.log(item));
+
+    return myArr;
 }
 
 
 // Search 
-
 function generateNumber(){
     return Math.floor(Math.random() * 150 + 1)
 }
@@ -286,3 +370,24 @@ https://pokeapi.co/api/v2/pokemon-species/{name or id}
 // }
 
 // myBtn.addEventListener('click', loadWithFetch)
+
+
+// function for assigning type colour 
+/*
+    function checkType(){
+        function takes in an array of types
+        for each type check through switch statement
+
+        switch fire:
+         case : 'fire'
+            backgroundColor = red;
+
+
+        return array [red, pink]
+    }
+*/
+
+
+
+
+// retrieve pokemon type icon function
