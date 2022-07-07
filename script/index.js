@@ -240,24 +240,7 @@ async function populatePage(data){
         //add the text and colour to each list item
 
 
-
-
-    // statsArr.forEach(item => {
-
-    //     console.log('second loop');
-        
-    //     console.log(item)
-    //     // let statsItem = document.createElement('div');
-    //     // let statsParagraph = document.createElement('p');
-    //     // let statName = Object.keys(item)
-
-    //     // statsParagraph.innerHTML = `${statName}: `;
-    //     // statsItem.appendChild(statsParagraph);
-    //     // statsItem.classList.add('pokemon-stats__item');
-    //     // pokeStats.appendChild(statsItem);
-
-
-    // })
+    let pokemonMovesArr = await retrieveMoves(data.moves)
        
 }
 
@@ -295,6 +278,67 @@ function generateTypes(pokemonTypes){
     return myArr;
 }
 
+
+// create a seperate function to retrieve the type for each move.
+async function retrieveMoves(moveArr){
+    let testArr = [];
+    for(let i = 0; i < moveArr.length; i++){
+        let response = await fetch(`https://pokeapi.co/api/v2/move/${moveArr[i].name}/`);
+        let data = await response.json();
+        let moveObj = {
+            movePP: data.pp,
+            moveName: data.name,
+            moveType: data.type.name,
+            moveLevel: moveArr[i].level
+        }
+
+        testArr.push(moveObj)
+        // console.log(moveObj);
+    }
+
+    console.log(testArr)
+
+    // moveArr.forEach((move) => {
+    //     let moveResponse = fetch(`https://pokeapi.co/api/v2/move/${move.name}/`);
+    //     let data = await moveResponse.json();
+    //     console.log(data);
+    // })
+    
+    // for(let i = 0; i < 5; i++){
+    //     let moveResponse = fetch(`https://pokeapi.co/api/v2/move/ember/`);
+    //     let data = await (await moveResponse).json();
+    //     console.log(data);
+    // }
+    
+    // let testArr = [];
+    // moveArr.forEach((move) => {
+    //     fetch(`https://pokeapi.co/api/v2/move/${move.name}/`)
+    //         .then((response)=> {return response.json()})
+    //         .then((data => {
+    //             console.log(data)
+    //         }))
+    //     // const data =  moveResponse.json();  
+    // })
+    
+
+    /*
+        array contains move name 
+        for each move name 
+        make an api call to https://pokeapi.co/api/v2/move/{id or name}/
+        from the call data retrieve:
+        pp, type -> name
+        call the type function and input the retrieved type
+
+        
+        store these values into an object
+        let movesObj = {
+            powerPoint: pp,
+            moveType: type
+        }
+    */
+
+
+}
 
 // Search 
 function generateNumber(){
@@ -391,3 +435,5 @@ https://pokeapi.co/api/v2/pokemon-species/{name or id}
 
 
 // retrieve pokemon type icon function
+
+
