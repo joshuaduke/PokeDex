@@ -158,10 +158,18 @@ body{
 
 .move-type{
     display: inline-block;
-    background-color:pink;
+    text-transform: uppercase;
+    text-align: center;
+    width: 112px;
     color:#fff;
     padding:5px 20px;
     border-radius: 5px;
+}
+
+.move-item{
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .move-lvl, .move-type, .move-name, .move-points{

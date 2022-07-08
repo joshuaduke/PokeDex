@@ -273,7 +273,7 @@ function generateTypes(pokemonTypes){
         myArr.push(found);
     })
 
-    myArr.forEach(item => console.log(item));
+    // myArr.forEach(item => console.log(item));
 
     return myArr;
 }
@@ -281,46 +281,32 @@ function generateTypes(pokemonTypes){
 
 // create a seperate function to retrieve the type for each move.
 async function retrieveMoves(moveArr){
-    let testArr = [];
+    let moveData = [];
     for(let i = 0; i < moveArr.length; i++){
         let response = await fetch(`https://pokeapi.co/api/v2/move/${moveArr[i].name}/`);
         let data = await response.json();
+        //for each move call get type function and pass data.type.name
+        // add returned result into the object
+
+        let typeArr = [data.type.name]
+        // console.log(typeArr)
+
+        let retrieveMoveTypeColours = generateTypes(typeArr)
+        // console.log('Type:');
+        // console.log(retrieveMoveTypeColours);
+        
         let moveObj = {
-            movePP: data.pp,
+            moveType: retrieveMoveTypeColours,
             moveName: data.name,
-            moveType: data.type.name,
-            moveLevel: moveArr[i].level
+            moveLevel: moveArr[i].level,
+            movePP: data.pp,    
         }
 
-        testArr.push(moveObj)
+        moveData.push(moveObj)
         // console.log(moveObj);
     }
-
-    console.log(testArr)
-
-    // moveArr.forEach((move) => {
-    //     let moveResponse = fetch(`https://pokeapi.co/api/v2/move/${move.name}/`);
-    //     let data = await moveResponse.json();
-    //     console.log(data);
-    // })
-    
-    // for(let i = 0; i < 5; i++){
-    //     let moveResponse = fetch(`https://pokeapi.co/api/v2/move/ember/`);
-    //     let data = await (await moveResponse).json();
-    //     console.log(data);
-    // }
-    
-    // let testArr = [];
-    // moveArr.forEach((move) => {
-    //     fetch(`https://pokeapi.co/api/v2/move/${move.name}/`)
-    //         .then((response)=> {return response.json()})
-    //         .then((data => {
-    //             console.log(data)
-    //         }))
-    //     // const data =  moveResponse.json();  
-    // })
-    
-
+    console.log('Move Data')
+    console.log(moveData)
     /*
         array contains move name 
         for each move name 
@@ -336,8 +322,88 @@ async function retrieveMoves(moveArr){
             moveType: type
         }
     */
+   createMoveList(moveData)
+}
 
+function createMoveList(movesArr){
+    const sectionPokemonMoves = document.querySelector('.pokemon-moves');
+    movesArr.forEach((moveItem)=>{
+        let moveList = document.createElement('ul');
+        moveList.classList.add('pokemon-moves__item');
 
+        for(const key in moveItem){
+            let moveListItem = document.createElement('li');
+            moveListItem.classList.add('moveListItem');
+            let moveListSpan = document.createElement('span');
+            let title = '';
+            let typeBgColor = '';
+
+            switch (key) {
+                case 'moveName':
+                    value = moveItem[key]
+                    break;
+                case 'moveLevel':
+                    title = 'LVL:'
+                    value = moveItem[key]
+                    break;
+                case 'movePP':
+                    title = 'PP:'
+                    value = moveItem[key]
+                    break;
+                case 'moveType':
+                    value = moveItem[key][0].type;
+                    typeBgColor = moveItem[key][0].color;
+
+                default:
+                    break;
+            }
+
+            if(key !== 'moveType'){
+                let node = document.createTextNode(`${title} ${value}`);
+                moveListSpan.classList.add('move-item');
+                moveListSpan.appendChild(node);
+                moveListItem.appendChild(moveListSpan);
+                moveList.appendChild(moveListItem);
+                sectionPokemonMoves.appendChild(moveList);
+                // moveListSpan.innerHTML = title + moveItem[key];
+                
+                console.log(`${key}: ${value}`);
+            } else {
+                let node = document.createTextNode(`${title} ${value}`);
+                moveListSpan.classList.add('move-type');
+                moveListSpan.style.backgroundColor = typeBgColor;
+                moveListSpan.appendChild(node);
+                moveListItem.appendChild(moveListSpan);
+                moveList.appendChild(moveListItem);
+                sectionPokemonMoves.appendChild(moveList);
+                // moveListSpan.innerHTML = title + moveItem[key];
+                
+                console.log(`${key}: ${value}`);
+            }
+
+        }
+
+        // for(let i = 0; i < 4; i++){
+        //     let moveListItem = document.createElement('li');
+        //     moveListItem.classList.add('moveListItem');
+        //     let moveListSpan = document.createElement('span');
+        //     let title = '';
+
+        //     switch (i) {
+        //         case 2:
+        //             title = 'LVL:'
+        //             break;
+        //         case 3:
+        //             title = 'PP:'
+        //             break;            
+        //         default:
+        //             break;
+        //     }
+
+        //     moveListSpan.innerHTML = `${title} `
+        // }
+
+    })
 }
 
 // Search 
